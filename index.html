@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>그림 속 산책</title>
+<style>
+  :root {
+    --bg: #101114;
+    --panel: rgba(20, 22, 28, 0.78);
+    --panel-border: rgba(255, 255, 255, 0.12);
+    --text: #eceef2;
+    --muted: #a3a8b3;
+    --accent: #f2b544;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+    font: 14px/1.4 system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif; overflow: hidden; }
+  #stage { position: fixed; inset: 0; display: grid; place-items: center; }
+  canvas { display: block; touch-action: none; }
+  .bar { position: fixed; top: 12px; left: 12px; right: 12px; display: flex; flex-wrap: wrap; gap: 6px;
+    align-items: center; padding: 6px; background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: 10px; backdrop-filter: blur(6px); width: fit-content; max-width: calc(100% - 24px); }
+  .bar button, .bar label { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid var(--panel-border);
+    border-radius: 7px; padding: 6px 10px; font: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .bar button:hover { background: rgba(255,255,255,0.12); }
+  .bar button.on { border-color: var(--accent); color: var(--accent); }
+  .hint { position: fixed; left: 12px; bottom: 12px; padding: 6px 10px; background: var(--panel);
+    border: 1px solid var(--panel-border); border-radius: 8px; color: var(--muted); font-size: 12px; max-width: calc(100% - 24px); }
+  #loading { position: fixed; inset: 0; display: grid; place-items: center; pointer-events: none; color: var(--muted); }
+  #loading.done { display: none; }
+  .split-label { position: fixed; right: 14px; padding: 2px 8px; font-size: 11px; color: var(--muted);
+    background: var(--panel); border-radius: 6px; display: none; }
+  body.split .split-label { display: block; }
+  #drop { position: fixed; inset: 0; display: none; place-items: center; background: rgba(242,181,68,0.12);
+    border: 3px dashed var(--accent); color: var(--accent); font-size: 20px; pointer-events: none; }
+  body.dragging #drop { display: grid; }
+  .bar select { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid var(--panel-border);
+    border-radius: 7px; padding: 6px 8px; font: inherit; }
+  .bar select option { background: #1c1e24; }
+  .bar button:disabled { opacity: 0.4; cursor: default; }
+  /* speech: no box at all, just white handwriting floating above the head */
+  .bubble { position: fixed; transform: translate(-50%, calc(-100% - 6px)) translateY(6px); background: transparent;
+    color: #ffffff; font-family: "Nanum Pen Script", cursive; font-size: 30px; line-height: 1.1; letter-spacing: 0.02em;
+    white-space: nowrap; pointer-events: none; z-index: 5; opacity: 0;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.55), 0 0 10px rgba(0,0,0,0.35), 0 0 22px rgba(0,0,0,0.2);
+    transition: opacity 0.35s ease, transform 0.35s ease; }
+  .bubble.show { opacity: 1; transform: translate(-50%, calc(-100% - 6px)); }
+  #tip { position: fixed; display: none; padding: 3px 8px; border-radius: 6px; background: rgba(20,22,28,0.85);
+    color: var(--text); font-size: 12px; pointer-events: none; z-index: 6; }
+  .credit { position: fixed; right: 12px; bottom: 12px; font-size: 11px; color: var(--muted); opacity: 0.8; }
+  @media (max-width: 700px) { .credit { display: none; } }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/",
+  "@sparkjsdev/spark": "https://cdn.jsdelivr.net/npm/@sparkjsdev/spark@2.3.1/dist/spark.module.js",
+  "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3.5.5/lib/three-vrm.module.min.js"
+} }
+</script>
+</head>
+<body>
+<div id="stage"></div>
+<div class="bar">
+  <select id="selScene" title="장면 선택"></select>
+  <button id="btnStart" title="정해진 산책 경로를 처음부터 재생">▶ 처음부터</button>
+  <label><input type="checkbox" id="chkLoop"> 반복</label>
+  <button id="btnSit">앉기</button>
+  <button id="btnPaint" class="on">그림 시점</button>
+  <button id="btnFree">자유 시점</button>
+  <button id="btnSplit">분할 보기</button>
+</div>
+<div class="split-label" id="labTop">원래 그림 시점</div>
+<div class="split-label" id="labBottom">다른 각도</div>
+<div class="hint" id="hint">WASD 이동 · Shift 달리기 · Space 앉기 · Q 손 흔들기 · 물건/사람 클릭으로 상호작용 · .vrm 드롭으로 캐릭터 교체</div>
+<div id="loading">불러오는 중…</div>
+<div class="bubble" id="bubble"></div>
+<div id="tip"></div>
+<div class="credit">캐릭터: pixiv VRM samples (VRM1 sample · three-vrm-girl) · 3D: Apple SHARP</div>
+<div id="drop">.vrm 파일을 놓으면 캐릭터를 바꿔요</div>
+<script type="module" src="main.js"></script>
+</body>
+</html>

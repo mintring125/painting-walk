@@ -1,0 +1,8 @@
+[
+  {"id": "street", "name": "바닷가 마을 거리", "light": {"sky": "#cfe3ff", "ground": "#b59a7a", "hemi": 1.4, "sun": "#fff1dc", "sunIntensity": 2.4, "sunDir": [-4, 8, 3]}},
+  {"id": "stairs", "name": "신사 돌계단", "light": {"sky": "#d8ecd0", "ground": "#8a7a5a", "hemi": 1.3, "sun": "#fff0d0", "sunIntensity": 2.0, "sunDir": [2, 8, -4]}},
+  {"id": "train", "name": "바다 옆 기차 안", "light": {"sky": "#fff2dc", "ground": "#9a7a50", "hemi": 1.5, "sun": "#ffd9a0", "sunIntensity": 2.2, "sunDir": [-6, 4, 0]}},
+  {"id": "beach", "name": "해 질 녘 해변", "light": {"sky": "#ff9a6a", "ground": "#6a4a5a", "hemi": 1.0, "sun": "#ffa060", "sunIntensity": 2.6, "sunDir": [0, 2, -10]}},
+  {"id": "night", "name": "비 갠 밤 골목", "light": {"sky": "#2a3a6a", "ground": "#3a2a20", "hemi": 0.7, "sun": "#ffb070", "sunIntensity": 1.6, "sunDir": [4, 5, 2]}},
+  {"id": "home", "name": "오후의 거실", "light": {"sky": "#fff0e0", "ground": "#a08060", "hemi": 1.4, "sun": "#ffe0b0", "sunIntensity": 2.2, "sunDir": [0, 5, -6]}}
+]

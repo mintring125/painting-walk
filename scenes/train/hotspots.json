@@ -1,0 +1,73 @@
+[
+ {
+  "id": "seat",
+  "label": "의자",
+  "action": "sit",
+  "box": [
+   1090,
+   600,
+   1300,
+   640
+  ],
+  "facing": [
+   -1,
+   0
+  ],
+  "say": "창밖 구경해야지"
+ },
+ {
+  "id": "window",
+  "label": "창밖",
+  "action": "look",
+  "box": [
+   250,
+   200,
+   400,
+   450
+  ],
+  "say": "바다다!"
+ },
+ {
+  "id": "door",
+  "label": "문",
+  "action": "touch",
+  "box": [
+   790,
+   330,
+   870,
+   520
+  ],
+  "say": "다음 역은 어디일까"
+ },
+ {
+  "id": "passenger",
+  "label": "기차 손님",
+  "action": "npc",
+  "pose": "sit",
+  "box": [
+   380,
+   610,
+   560,
+   650
+  ],
+  "facing": [
+   1,
+   0
+  ],
+  "idle": "read",
+  "role": "passenger",
+  "greet": "",
+  "lines": [
+   "이 기차는 바다가 보여서 좋아요",
+   "다음 역까지 한참 걸려요",
+   "책이 재밌어서 내릴 역을 지나칠 뻔했어요"
+  ],
+  "model": "assets/npc_casual.vrm",
+  "tint": {
+   "Tops": "#e8dcc4",
+   "Bottoms": "#5b6b4a",
+   "Hair": "#3a2a22",
+   "HairBack": "#3a2a22"
+  }
+ }
+]

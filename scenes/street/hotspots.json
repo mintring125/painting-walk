@@ -1,0 +1,84 @@
+[
+ {
+  "id": "bench",
+  "label": "벤치",
+  "action": "sit",
+  "box": [
+   1157,
+   667,
+   1198,
+   680
+  ],
+  "facing": [
+   -1,
+   0
+  ],
+  "say": "잠깐 쉬어 갈까"
+ },
+ {
+  "id": "vending",
+  "label": "자판기",
+  "action": "touch",
+  "box": [
+   1320,
+   440,
+   1400,
+   740
+  ],
+  "say": "시원한 음료 하나!"
+ },
+ {
+  "id": "mailbox",
+  "label": "우체통",
+  "action": "touch",
+  "box": [
+   1235,
+   565,
+   1300,
+   700
+  ],
+  "say": "편지를 넣었어요"
+ },
+ {
+  "id": "sea",
+  "label": "바다",
+  "action": "look",
+  "box": [
+   560,
+   380,
+   880,
+   470
+  ],
+  "say": "바다가 반짝여요"
+ },
+ {
+  "id": "owner",
+  "label": "가게 사장님",
+  "action": "npc",
+  "pose": "stand",
+  "box": [
+   1050,
+   688,
+   1110,
+   700
+  ],
+  "facing": [
+   -1,
+   0.4
+  ],
+  "idle": "rest",
+  "role": "shopkeeper",
+  "greet": "어서 오세요~",
+  "lines": [
+   "시원한 라무네 있어요!",
+   "오늘 바다 색이 참 곱죠?",
+   "저 위 언덕에서 보는 노을이 예뻐요",
+   "또 놀러 와요~"
+  ],
+  "model": "assets/npc_casual.vrm",
+  "tint": {
+   "Tops": "#3d5a73",
+   "Bottoms": "#2b2b30"
+  }
+ }
+]

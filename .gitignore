@@ -1,0 +1,17 @@
+# SHARP inputs/outputs and raw splats (rebuild with ml-sharp; the app uses splat.sog)
+sharp_in/
+sharp_out/
+scenes/*/in/
+scenes/*/out/
+scenes/*/raw.ply
+scenes/*/splat.ply
+scenes/*/check.jpg
+scenes/*/*.log
+scenes/*/image.report.json
+/scene.json
+assets/background*
+assets/bg_prompt.txt
+assets/npc.vrm
+__pycache__/
+.vercel
+scenes/*/*.raw.png

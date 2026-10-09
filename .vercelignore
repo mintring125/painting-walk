@@ -1,0 +1,6 @@
+*.py
+*.sh
+README.md
+scenes/*/image.png
+scenes/*/prompt.txt
+scenes/*/hotspots.json
